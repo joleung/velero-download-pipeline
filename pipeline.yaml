@@ -2,7 +2,7 @@
 resources:
 - name: gh-release
   type: github-release
-  check_every: 1h
+  check_every: 6h
   source:
     owner: vmware-tanzu
     repository: velero
@@ -10,7 +10,7 @@ resources:
 
 - name: releases-linux-arm64
   type: s3
-  check_every: 1h
+  check_every: 6h
   source:
     bucket: ((s3_bucket))
     endpoint: ((s3_endpoint))
@@ -22,7 +22,7 @@ resources:
 
 - name: releases-linux-arm
   type: s3
-  check_every: 1h
+  check_every: 6h
   source:
     bucket: ((s3_bucket))
     endpoint: ((s3_endpoint))
@@ -34,7 +34,7 @@ resources:
 
 - name: releases-linux-amd64
   type: s3
-  check_every: 1h
+  check_every: 6h
   source:
     bucket: ((s3_bucket))
     endpoint: ((s3_endpoint))
@@ -46,7 +46,7 @@ resources:
 
 - name: releases-darwin-amd64
   type: s3
-  check_every: 1h
+  check_every: 6h
   source:
     bucket: ((s3_bucket))
     endpoint: ((s3_endpoint))
