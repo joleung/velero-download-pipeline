@@ -1,0 +1,78 @@
+---
+resources:
+- name: gh-release
+  type: github-release
+  check_every: 1h
+  source:
+    owner: vmware-tanzu
+    repository: velero
+    # tag_filter: "v7(.*)"
+
+- name: releases-linux-arm64
+  type: s3
+  check_every: 1h
+  source:
+    bucket: ((s3_bucket))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region_name))
+    regexp: velero-(.*)-linux-arm64(.*)
+    access_key_id: ((s3_access_key))
+    secret_access_key: ((s3_secret_key))
+    skip_download: true
+
+- name: releases-linux-arm
+  type: s3
+  check_every: 1h
+  source:
+    bucket: ((s3_bucket))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region_name))
+    regexp: velero-(.*)-linux-arm.(.*)
+    access_key_id: ((s3_access_key))
+    secret_access_key: ((s3_secret_key))
+    skip_download: true
+
+- name: releases-linux-amd64
+  type: s3
+  check_every: 1h
+  source:
+    bucket: ((s3_bucket))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region_name))
+    regexp: velero-(.*)-linux-amd64.(.*)
+    access_key_id: ((s3_access_key))
+    secret_access_key: ((s3_secret_key))
+    skip_download: true
+
+- name: releases-darwin-amd64
+  type: s3
+  check_every: 1h
+  source:
+    bucket: ((s3_bucket))
+    endpoint: ((s3_endpoint))
+    region_name: ((s3_region_name))
+    regexp: velero-(.*)-darwin-amd64.(.*)
+    access_key_id: ((s3_access_key))
+    secret_access_key: ((s3_secret_key))
+    skip_download: true
+
+jobs:
+- name: download-velero-release
+  public: true
+  plan:
+  - get: gh-release
+    trigger: false
+
+  - in_parallel:
+    - put: releases-linux-arm64
+      params:
+        file: "gh-release/velero-*-linux-arm64.*"
+    - put: releases-linux-arm
+      params:
+        file: "gh-release/velero-*-linux-arm.*"
+    - put: releases-linux-amd64
+      params:
+        file: "gh-release/velero-*-linux-amd64.*"
+    - put: releases-darwin-amd64
+      params:
+        file: "gh-release/velero-*-darwin-amd64.*"
