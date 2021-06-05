@@ -1,6 +1,6 @@
 ---
 resources:
-- name: gh-release
+- name: velero-release
   type: github-release
   icon: github
   check_every: 6h
@@ -11,7 +11,7 @@ resources:
 
 - name: releases-linux-arm64
   type: s3
-  icon: bucket-outline
+  icon: file
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -24,7 +24,7 @@ resources:
 
 - name: releases-linux-arm
   type: s3
-  icon: bucket-outline
+  icon: file
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -37,7 +37,7 @@ resources:
 
 - name: releases-linux-amd64
   type: s3
-  icon: bucket-outline
+  icon: file
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -50,7 +50,7 @@ resources:
 
 - name: releases-darwin-amd64
   type: s3
-  icon: bucket-outline
+  icon: file
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -65,19 +65,19 @@ jobs:
 - name: download-velero-release
   public: true
   plan:
-  - get: gh-release
+  - get: velero-release
     trigger: false
 
   - in_parallel:
     - put: releases-linux-arm64
       params:
-        file: "gh-release/velero-*-linux-arm64.*"
+        file: "velero-release/velero-*-linux-arm64.*"
     - put: releases-linux-arm
       params:
-        file: "gh-release/velero-*-linux-arm.*"
+        file: "velero-release/velero-*-linux-arm.*"
     - put: releases-linux-amd64
       params:
-        file: "gh-release/velero-*-linux-amd64.*"
+        file: "velero-release/velero-*-linux-amd64.*"
     - put: releases-darwin-amd64
       params:
-        file: "gh-release/velero-*-darwin-amd64.*"
+        file: "velero-release/velero-*-darwin-amd64.*"
