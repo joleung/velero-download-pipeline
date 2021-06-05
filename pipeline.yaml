@@ -2,6 +2,7 @@
 resources:
 - name: gh-release
   type: github-release
+  icon: github
   check_every: 6h
   source:
     owner: vmware-tanzu
@@ -10,6 +11,7 @@ resources:
 
 - name: releases-linux-arm64
   type: s3
+  icon: bucket-outline
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -22,6 +24,7 @@ resources:
 
 - name: releases-linux-arm
   type: s3
+  icon: bucket-outline
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -34,6 +37,7 @@ resources:
 
 - name: releases-linux-amd64
   type: s3
+  icon: bucket-outline
   check_every: 6h
   source:
     bucket: ((s3_bucket))
@@ -46,6 +50,7 @@ resources:
 
 - name: releases-darwin-amd64
   type: s3
+  icon: bucket-outline
   check_every: 6h
   source:
     bucket: ((s3_bucket))
